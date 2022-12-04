@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to rpc-balancer 👋</h1>
+<h1 align="center">Welcome to rpc-load-balancer 👋</h1>
 <p>
   <a href="https://www.npmjs.com/package/rpc-balancer" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/rpc-balancer.svg">
@@ -21,7 +21,7 @@
 ## Install
 
 ```sh
-yarn install rpc-balancer
+yarn add rpc-balancer
 ```
 
 ## Usage

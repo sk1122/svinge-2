@@ -1,6 +1,6 @@
 {
-  "name": "rpc-balancer",
-  "version": "1.0.5",
+  "name": "rpc-load-balancer",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
