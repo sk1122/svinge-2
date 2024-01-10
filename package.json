@@ -1,6 +1,6 @@
 {
   "name": "rpc-load-balancer",
-  "version": "1.0.1",
+  "version": "1.0.11",
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
