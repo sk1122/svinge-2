@@ -46,21 +46,21 @@ This package can also **cache** requests for certain amount of time and retry if
 ### Round Robin
 
 ```ts
-import { RoundRobin } from "rpc-balancer"
+import { RoundRobin } from 'rpc-balancer'
 import { ethers } from 'ethers'
 
 const balancer = new RoundRobin({
-    maxConnections: 2,
-    maxResponses: 2,
-    maxRetries: 2,
-    cache: {
-        caching: true,
-        cacheClear: 2000,
-        excludeMethods: []
-    }
+  maxConnections: 2,
+  maxResponses: 2,
+  maxRetries: 2,
+  cache: {
+    caching: true,
+    cacheClear: 2000,
+    excludeMethods: []
+  }
 })
 
-await balancer.init(["RPC_LINKS"])
+await balancer.init(['RPC_LINKS'])
 
 const provider = new ethers.providers.Web3Provider(balancer)
 ```
@@ -68,21 +68,58 @@ const provider = new ethers.providers.Web3Provider(balancer)
 ### Dynamic Load Balancing
 
 ```ts
-import { RoundRobin } from "rpc-balancer"
+import { LoadBalanceRPC } from 'rpc-balancer'
 import { ethers } from 'ethers'
 
 const balancer = new LoadBalanceRPC({
-    maxConnections: 2,
-    maxResponses: 2,
-    maxRetries: 2,
-    cache: {
-        caching: true,
-        cacheClear: 2000,
-        excludeMethods: []
+  maxConnections: 2,
+  maxResponses: 2,
+  maxRetries: 2,
+  cache: {
+    caching: true,
+    cacheClear: 2000,
+    excludeMethods: []
+  }
+})
+
+await balancer.init(['RPC_LINKS'])
+
+const provider = new ethers.providers.Web3Provider(balancer)
+```
+
+### Dynamic WebSocket Load Balancing
+
+
+```ts
+import { RoundRobinWS } from "rpc-balancer"
+import { ethers } from 'ethers'
+
+const balancer = new RoundRobinWS({
+    maxRetries: 5, // Default is "5"
+    client: {
+      // WebSocket Client Options
+    },
+    {
+      autoReconnect: true, // Default is "true"
+      delay: 2000, // Default is "2000"
+      maxAttempts: 100, // Too large to fit on the screen by default
     }
 })
 
-await balancer.init(["RPC_LINKS"])
+await balancer.init(["RPC_URLS_STARTS_WITH_WS_OR_WSS"])
+balancer.subscribe({ // This will subscribe from all providers then give a single output on "data" callback
+  eventName: "logs",
+  meta: { // optional
+    // Checkout https://ethereum.org/tr/developers/tutorials/using-websockets/#eth-subscribe
+  }
+}).then(subscription => {
+  subscription.on("data", (data) => {
+    let transactionHash = data.transactionHash;
+    let from = data.from;
+    console.log(`New transaction ${transactionHash} made by ${from}`);
+    // transaction data, the transactions has the same transactionHash won't be emitted again.
+  });
+});
 
 const provider = new ethers.providers.Web3Provider(balancer)
 ```
@@ -91,18 +128,19 @@ const provider = new ethers.providers.Web3Provider(balancer)
 
 👤 **Satyam Kulkarni**
 
-* Website: https://satyamkulkarni.xyz
-* Twitter: [@sk1122\_](https://twitter.com/sk1122\_)
-* Github: [@sk1122](https://github.com/sk1122)
-* LinkedIn: [@satyam-kulkarni](https://linkedin.com/in/satyam-kulkarni)
+- Website: https://satyamkulkarni.xyz
+- Twitter: [@sk1122\_](https://twitter.com/sk1122_)
+- Github: [@sk1122](https://github.com/sk1122)
+- LinkedIn: [@satyam-kulkarni](https://linkedin.com/in/satyam-kulkarni)
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/sk1122/rpc-load-balancer/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/sk1122/rpc-load-balancer/issues).
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

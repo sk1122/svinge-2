@@ -28,9 +28,9 @@ export const request = async ({
     API.interceptors.response.use(
         response => {
             const start = new Date(response.headers?.date?.toString() as string)
-            
+
             const end = new Date()
-            
+
             const elapsedTime = (end.getTime() - start.getTime()) / 1000
 
             response.headers['elapsedTime'] = elapsedTime.toString()
@@ -40,7 +40,7 @@ export const request = async ({
     )
 
     // console.log(`${data.method} -> ${url}`)
-    
+
     const res = await API({
         url: url,
         method: 'POST',
